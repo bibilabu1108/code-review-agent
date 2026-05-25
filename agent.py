@@ -69,10 +69,26 @@ def load_local_env():
             os.environ[key] = value
 
 
-def get_client():
+def get_api_key():
     load_local_env()
 
     api_key = os.getenv("DEEPSEEK_API_KEY", "").strip()
+    if api_key:
+        return api_key
+
+    try:
+        import streamlit as st
+    except Exception:
+        return ""
+
+    try:
+        return str(st.secrets.get("DEEPSEEK_API_KEY", "")).strip()
+    except Exception:
+        return ""
+
+
+def get_client():
+    api_key = get_api_key()
     if not api_key or "DeepSeekKey" in api_key:
         raise RuntimeError(TEXT["missing_key"])
 
@@ -83,8 +99,7 @@ def get_client():
 
 
 def has_api_key():
-    load_local_env()
-    api_key = os.getenv("DEEPSEEK_API_KEY", "").strip()
+    api_key = get_api_key()
     return bool(api_key and "DeepSeekKey" not in api_key)
 
 

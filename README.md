@@ -44,6 +44,20 @@ Web app:
 streamlit run agent.py
 ```
 
+## Deploy to Streamlit Community Cloud
+
+Deploy settings:
+
+- Repository: `bibilabu1108/code-review-agent`
+- Branch: `main`
+- Main file path: `agent.py`
+
+In Streamlit Cloud secrets, add:
+
+```toml
+DEEPSEEK_API_KEY = "your_deepseek_api_key_here"
+```
+
 ## Security
 
 Do not commit `.env`. It contains your private API key and is ignored by `.gitignore`.
